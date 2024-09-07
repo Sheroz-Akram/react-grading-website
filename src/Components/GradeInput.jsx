@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import GradePolicy from "./GradePolicy.json";
 
 function GradeInput({
@@ -13,8 +12,8 @@ function GradeInput({
 
   return (
     <>
-      <form className="flex gap-5">
-        <div className="min-w-[200px]">
+      <form className="flex justify-between gap-5 w-[80%]">
+        <div className="w-[35%]">
           <select
             onChange={(e) => {
               subjectGPAHandler(subjectIndex, parseFloat(e.target.value));
@@ -34,7 +33,7 @@ function GradeInput({
             })}
           </select>
         </div>
-        <div className="min-w-[200px]">
+        <div className="w-[35%]">
           <select
             onChange={(e) => {
               subjectCreditHandler(subjectIndex, parseInt(e.target.value));

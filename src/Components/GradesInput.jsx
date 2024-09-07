@@ -1,5 +1,6 @@
 import { useState } from "react";
 import GradeInput from "./GradeInput";
+import InputCurrent from "./InputCurrent";
 
 function GradesInput() {
   // Store All Subject Grades and Credits
@@ -60,7 +61,7 @@ function GradesInput() {
       totalGrade += value.gpa * value.credits;
       totalCredits += value.credits;
     });
-    console.log(`Total Credits: ${totalGrade}, Total Credits: ${totalCredits}`)
+    console.log(`Total Credits: ${totalGrade}, Total Credits: ${totalCredits}`);
     return totalGrade / totalCredits;
   };
 
@@ -71,7 +72,11 @@ function GradesInput() {
 
   return (
     <>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center w-full sm:w-[50%]">
+
+        <InputCurrent />
+
+
         {gradeList.map((value, index) => {
           return (
             <GradeInput
@@ -84,8 +89,8 @@ function GradesInput() {
           );
         })}
 
-        <div className="inline-flex items-center justify-center w-full">
-          <hr className="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+        <div className="inline-flex items-center justify-center w-full mt-5">
+          <hr className="w-[80%] h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
           <span className="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">
             <button
               onClick={addSubject}
@@ -97,7 +102,7 @@ function GradesInput() {
           </span>
         </div>
 
-        <div className="flex flex-col my-4">
+        <div className="flex flex-col w-[80%] my-4">
           <button
             onClick={calculateComplete}
             type="button"
@@ -106,7 +111,7 @@ function GradesInput() {
             Calculate
           </button>
 
-          <div className="w-[300px] relative overflow-x-auto rounded-lg my-4">
+          <div className="w-full relative overflow-x-auto rounded-lg my-4">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <tbody>
                 <tr className="bg-gray-300 dark:bg-gray-800">
