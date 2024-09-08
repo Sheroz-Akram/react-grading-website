@@ -13,6 +13,9 @@ function GradesInput() {
 
   // Store Grade Information
   let [gpa, setGpa] = useState(0.0);
+  let [previousCgpa, setPreviousCgpa] = useState(0.0);
+  let [totalCreditsCompleted, setTotalCreditsCompleted] = useState(0);
+  let [cgpa, setCgpa] = useState(0.0);
 
   // Add New Subject to List
   const addSubject = () => {
@@ -53,6 +56,20 @@ function GradesInput() {
     });
   };
 
+  // Handle CGPA Input
+  const handleCGPAInput = (value) => {
+    if (!isNaN(value)) {
+      setPreviousCgpa(value);
+    }
+  };
+
+  // Store Total Credits Accepted
+  const handleTotalCredits = (value) => {
+    if (!isNaN(value)) {
+      setTotalCreditsCompleted(value);
+    }
+  };
+
   // Find the Total GPA
   let findGPA = () => {
     let totalGrade = 0.0;
@@ -65,17 +82,55 @@ function GradesInput() {
     return totalGrade / totalCredits;
   };
 
+  // Function to Calculate CGPA
+  let findCGPA = (
+    previousCGPA,
+    creditsCompleted,
+    currentGPA,
+    currentCredits
+  ) => {
+    let totalGPA =
+      (previousCGPA * creditsCompleted) + (currentGPA * currentCredits);
+    let totalCredits = creditsCompleted + currentCredits;
+    console.log(`Previous CGPA: ${previousCGPA}, Credits Completed: ${creditsCompleted}`)
+    console.log(`Current GPA: ${currentGPA}, Current Credits: ${currentCredits}`)
+    console.log(`Total GPA: ${totalGPA}, Total Credits: ${totalCredits}`)
+    return totalGPA / totalCredits;
+  };
+
+  // Find total Current Credits
+  let findTotalCredits = () => {
+    let totalCredits = 0;
+    gradeList.forEach((value, index) => {
+      totalCredits += value.credits;
+    });
+    return totalCredits;
+  };
+
   // Calculate GPA and CGPA
   const calculateComplete = () => {
-    setGpa(findGPA().toFixed(2));
+
+    // Find the Values 
+    let gpa = findGPA().toFixed(2);
+    let cgpa = findCGPA(
+      previousCgpa,
+      totalCreditsCompleted,
+      findGPA(),
+      findTotalCredits()
+    ).toFixed(2)
+
+    // Store and Display Values
+    !isNaN(gpa) && setGpa(gpa);
+    !isNaN(cgpa) && setCgpa(cgpa);
   };
 
   return (
     <>
       <div className="flex flex-col items-center w-full sm:w-[50%]">
-
-        <InputCurrent />
-
+        <InputCurrent
+          storeCgpa={handleCGPAInput}
+          storeCredits={handleTotalCredits}
+        />
 
         {gradeList.map((value, index) => {
           return (
@@ -130,7 +185,7 @@ function GradesInput() {
                   >
                     CGPA
                   </th>
-                  <td className="px-6 py-4">{0.0}</td>
+                  <td className="px-6 py-4">{cgpa}</td>
                 </tr>
               </tbody>
             </table>
